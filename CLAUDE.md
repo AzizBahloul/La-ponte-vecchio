@@ -17,6 +17,7 @@ Run `npm run build` before calling a change done. There are no tests.
 GitHub Pages via `.github/workflows/deploy.yml`: every push to `main` builds and publishes `dist/`
 (Settings → Pages → Source must stay "GitHub Actions"). The site is served from
 `/La-ponte-vecchio/`, so the workflow passes `BASE_PATH` to `vite.config.ts` (empty on a custom domain).
+It also passes `SITE_ORIGIN`, which makes `og:image` absolute (crawlers ignore relative URLs).
 
 - Media paths built in TS go through `asset()` from `src/lib/asset.ts` (`src/data/` keeps plain
   `/media/x.webp`). Never emit a bare `/media/...` from a template: it 404s on Pages.
@@ -50,6 +51,12 @@ GitHub Pages via `.github/workflows/deploy.yml`: every push to `main` builds and
 - Keep brand tokens (ocra, sauce, basil, slate, crust-gold/coal); one shape system (pill controls,
   20px media, 10px inputs). Icons come from `@phosphor-icons/core` via `src/lib/icons.ts`.
 - Fonts are self-hosted via Fontsource (RGPD): don't add Google Fonts or other CDN requests.
+- Phones: the hero must fit the first screen (`100svh`; the arch photo takes the leftover height, the
+  wordmark then the lede drop on short screens). Réserver on phones is the bottom bar in `footer.ts`
+  (it steps aside over the hero buttons and the booking form), so the nav pill does not repeat it.
+- La carte is a printed-menu card (`menu.ts` / `menu.css`): dietary info is small marks plus a legend,
+  filters are small and instant (no replay), and the motion (rules drawn, rows written) belongs to the
+  card entrance and the category switch only.
 - Don't `git commit` or `git push` unless asked.
 
 ## Design workflow (mandatory for any UI work)

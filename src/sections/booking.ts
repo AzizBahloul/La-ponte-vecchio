@@ -76,7 +76,7 @@ export function renderBooking() {
               <span class="err" id="e-date"></span>
             </fieldset>
 
-            <div class="form__row">
+            <div class="form__row form__row--pair">
               <fieldset class="field">
                 <legend>Service</legend>
                 <div class="segmented">
@@ -115,10 +115,10 @@ export function renderBooking() {
               </div>
             </div>
 
-            <div class="field">
-              <label for="r-note">Message <span class="optional">(facultatif)</span></label>
-              <textarea id="r-note" name="note" rows="3" placeholder="Chaise haute, anniversaire, pâte au charbon pour tout le monde…"></textarea>
-            </div>
+            <details class="note">
+              <summary>${icon('plus')}Ajouter un message <span class="optional">(facultatif)</span></summary>
+              <textarea id="r-note" name="note" rows="3" aria-label="Message" placeholder="Chaise haute, anniversaire, pâte au charbon pour tout le monde…"></textarea>
+            </details>
 
             <div class="form__send">
               <p class="form__recap" aria-hidden="true"></p>
@@ -164,6 +164,37 @@ export function mountBooking(): void {
   };
   const service = (): Service => (form.querySelector<HTMLInputElement>('input[name="service"]:checked')?.value as Service) ?? 'midi';
   const selectedTime = (): string => form.querySelector<HTMLInputElement>('input[name="time"]:checked')?.value ?? '';
+
+  /** Is there still a table to offer on this day for this service? */
+  const hasFree = (date: string, svc: Service): boolean => {
+    const now = parisNow();
+    const weekday = dayOfIso(date);
+    return slots[svc].some(
+      (t) => !(date === now.iso && toMinutes(t) <= now.minutes + bookingConfig.leadMinutes) && !isSlotFull(date, svc, t, weekday),
+    );
+  };
+  const checkService = (svc: Service): void => {
+    form.querySelector<HTMLInputElement>(`input[name="service"][value="${svc}"]`)!.checked = true;
+  };
+  /** The chosen service is sold out that day but the other is not: switch instead of showing an empty list. */
+  const settleService = (date: string): void => {
+    const other: Service = service() === 'midi' ? 'soir' : 'midi';
+    if (date && !hasFree(date, service()) && hasFree(date, other)) checkService(other);
+  };
+  /**
+   * Open on the first day and service that still have a free table, so the common case is one tap
+   * on "Envoyer": today after lunch lands on tonight, a full day lands on the next open one.
+   */
+  const preselect = (): void => {
+    const radios = $$<HTMLInputElement>('input[name="date"]:not([value="other"])', form);
+    const first = radios.find((r) => hasFree(r.value, 'midi') || hasFree(r.value, 'soir')) ?? radios[0];
+    first.checked = true;
+    checkService(hasFree(first.value, 'midi') || !hasFree(first.value, 'soir') ? 'midi' : 'soir');
+    // Bring the chosen day to the middle of the row, without scrolling the page itself.
+    const row = first.closest<HTMLElement>('.date-chips')!;
+    const chip = first.closest<HTMLElement>('.date-chip')!;
+    row.scrollLeft = chip.offsetLeft - (row.clientWidth - chip.offsetWidth) / 2;
+  };
 
   const setError = (id: string, msg: string): void => {
     $(`#f-${id}`).classList.toggle('is-invalid', !!msg);
@@ -240,10 +271,12 @@ export function mountBooking(): void {
     if (t.name === 'date') {
       otherWrap.hidden = t.value !== 'other';
       if (t.value === 'other') otherInput.focus();
+      else settleService(t.value);
       setError('date', '');
       renderSlots();
     } else if (t === otherInput) {
       setError('date', '');
+      settleService(otherInput.value);
       renderSlots();
     } else if (t.name === 'service') {
       renderSlots();
@@ -388,6 +421,8 @@ export function mountBooking(): void {
   $('#again').addEventListener('click', () => {
     form.reset();
     otherWrap.hidden = true;
+    $<HTMLDetailsElement>('.note', form).open = false;
+    preselect();
     setGuests(2);
     renderSlots();
     done.hidden = true;
@@ -395,6 +430,7 @@ export function mountBooking(): void {
     form.querySelector<HTMLInputElement>('input[name="date"]')?.focus();
   });
 
+  preselect();
   setGuests(2);
   renderSlots();
 }

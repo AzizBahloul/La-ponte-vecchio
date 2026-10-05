@@ -31,7 +31,7 @@ export function renderNav() {
           </ul>
         </nav>
         <span class="status" id="status" aria-live="polite"><span class="status__dot"></span><span class="status__label">Horaires</span></span>
-        <a class="btn btn--primary btn--sm nav__cta" href="#reserver">Réserver</a>
+        <a class="btn btn--sun btn--sm nav__cta" href="#reserver">Réserver</a>
         <button class="nav__burger" type="button" aria-expanded="false" aria-controls="sheet">
           ${icon('list')}<span class="sr-only">Ouvrir le menu</span>
         </button>
@@ -50,6 +50,7 @@ export function renderNav() {
         </ul>
       </nav>
       <div class="sheet__foot wrap">
+        <span class="status"><span class="status__dot"></span><span class="status__label">Horaires</span></span>
         <a class="btn btn--primary" href="${restaurant.phone.href}">${icon('phone')}${restaurant.phone.display}</a>
         <p>${restaurant.address.street}, ${restaurant.address.city}</p>
       </div>
@@ -59,12 +60,15 @@ export function renderNav() {
 
 export function mountNav(): void {
   const nav = $('.nav');
-  const status = $('#status');
+  // One in the bar (tablet and desktop), one in the menu sheet (phones).
+  const statuses = $$('.status');
 
   const updateStatus = (): void => {
     const s = openStatus();
-    status.classList.toggle('is-open', s.open);
-    $('.status__label', status).textContent = s.label;
+    statuses.forEach((el) => {
+      el.classList.toggle('is-open', s.open);
+      $('.status__label', el).textContent = s.label;
+    });
   };
   updateStatus();
   setInterval(updateStatus, 60_000);

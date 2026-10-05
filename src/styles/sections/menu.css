@@ -1,20 +1,83 @@
-.menu-tools {
+/*
+ * La carte, laid out like the printed menu on the table: a paper card with an ink border, a thin inner
+ * rule, a gingham edge like the tablecloth, titled pages, and dishes set as name · dotted leader · price.
+ * Motion lives in menu.ts (rules drawn, rows written); nothing here moves on its own.
+ */
+.carte {
+  --rule: color-mix(in srgb, var(--fg) 24%, transparent);
+  position: relative;
+  padding: 2.6rem clamp(1.15rem, 4vw, 3.25rem) 1.75rem;
+  border: 2px solid var(--fg);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  box-shadow: 0 34px 50px -36px rgb(90 40 10 / 0.5);
+}
+
+/* A strip of the tablecloth along the top edge. */
+.carte__edge {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 14px;
+  border-radius: calc(var(--r-md) - 2px) calc(var(--r-md) - 2px) 0 0;
+  background-color: var(--sauce);
+  background-image: var(--gingham);
+  background-size: 28px 28px;
+  box-shadow: inset 0 -2px 0 var(--sauce-deep);
+}
+
+/* The inner rule of a printed card, as four lines so each can be drawn on its own. */
+.carte__frame {
+  position: absolute;
+  inset: 26px 10px 10px;
+  pointer-events: none;
+}
+.rule {
+  position: absolute;
+  background: var(--rule);
+}
+.rule--t,
+.rule--b {
+  left: 0;
+  right: 0;
+  height: 1px;
+}
+.rule--l,
+.rule--r {
+  top: 0;
+  bottom: 0;
+  width: 1px;
+}
+.rule--t {
+  top: 0;
+}
+.rule--b {
+  bottom: 0;
+}
+.rule--l {
+  left: 0;
+}
+.rule--r {
+  right: 0;
+}
+
+/* ——— Tools: categories and dietary filters, kept small and quiet ——— */
+.carte__tools {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem 2rem;
-  margin-bottom: 2.5rem;
+  gap: 0.75rem 1.5rem;
+  margin-bottom: 1.9rem;
 }
 
-/* Tabs with a sliding pill (position set from JS, animated by CSS so it can be interrupted). */
 .tabs {
   position: relative;
   display: flex;
-  gap: 0.25rem;
-  padding: 0.3rem;
-  border: 2px solid var(--fg);
+  gap: 2px;
+  padding: 3px;
   border-radius: var(--r-pill);
+  background: color-mix(in srgb, var(--fg) 7%, transparent);
   max-width: 100%;
   overflow-x: auto;
   scrollbar-width: none;
@@ -29,22 +92,23 @@
   border-radius: var(--r-pill);
   background: var(--fg);
   transition:
-    transform 380ms var(--ease-out),
-    width 380ms var(--ease-out),
-    height 380ms var(--ease-out);
+    transform 240ms var(--ease-out),
+    width 240ms var(--ease-out),
+    height 240ms var(--ease-out);
 }
 .tabs__tab {
   position: relative;
   z-index: 1;
   flex: none;
-  padding: 0.6rem 1.15rem;
+  padding: 0.4rem 0.9rem;
   border: 0;
   border-radius: var(--r-pill);
   background: transparent;
+  font-size: 0.86rem;
   font-weight: 700;
   white-space: nowrap;
   cursor: pointer;
-  transition: color 250ms ease;
+  transition: color 160ms ease;
 }
 .tabs__tab[aria-selected='true'] {
   color: var(--bg);
@@ -53,142 +117,303 @@
 .filters {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  align-items: center;
+  gap: 0.35rem;
+}
+.filters__label {
+  margin-right: 0.2rem;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+.filter {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.2rem 0.6rem;
+  border: 1px solid color-mix(in srgb, var(--fg) 24%, transparent);
+  border-radius: var(--r-pill);
+  background: transparent;
+  color: var(--fg);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  /* Colour only: toggling a filter is a quiet state change, nothing moves. */
+  transition:
+    background-color 120ms ease,
+    color 120ms ease,
+    border-color 120ms ease;
+}
+/* The visible chip stays small; the tappable area is still 44px tall. */
+.filter::after {
+  content: '';
+  position: absolute;
+  inset: -0.4rem -0.15rem;
+}
+.filter .icon {
+  width: 0.95em;
+  height: 0.95em;
+}
+.filter[aria-pressed='true'] {
+  border-color: var(--fg);
+  background: var(--fg);
+  color: var(--bg);
+}
+@media (hover: hover) and (pointer: fine) {
+  .filter:hover {
+    border-color: var(--fg);
+  }
 }
 
-.menu-body {
+/* ——— A page of the menu ——— */
+.menu-panel {
   display: grid;
-  grid-template-columns: 0.85fr 1.15fr;
-  gap: clamp(2rem, 5vw, 4.5rem);
+  grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.22fr);
   align-items: start;
 }
+.menu-panel[hidden] {
+  display: none;
+}
 
-.menu-visual {
+.carte__cover {
   position: sticky;
-  top: calc(var(--nav-h) + 1.5rem);
+  top: calc(var(--nav-h) + 1.25rem);
+  display: grid;
+  gap: 1.75rem;
+  padding-right: clamp(1.25rem, 3.5vw, 3rem);
+}
+.carte__title {
+  font-size: clamp(2rem, 3.6vw, 3rem);
+  font-stretch: 78%;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  text-wrap: balance;
+}
+.orn {
+  display: block;
+  width: 9.5rem;
+  height: auto;
+  margin-block: 0.85rem 0.7rem;
+  overflow: visible;
+}
+.orn__line {
+  fill: none;
+  stroke: var(--fg);
+  stroke-opacity: 0.55;
+  stroke-width: 1.4;
+  stroke-linecap: round;
+}
+.menu-panel__intro {
+  max-width: 28ch;
+  color: var(--muted);
+}
+.carte__photo {
+  width: min(100%, 20rem);
+  margin: 0;
   aspect-ratio: 4 / 5;
-  border-radius: var(--r-md);
+  /* A true half-circle on top (50% of the width = 40% of a 4:5 height) and a real 20px base:
+     a 999px radius would be scaled down and flatten the bottom corners. */
+  border-radius: 50% 50% var(--r-md) var(--r-md) / 40% 40% var(--r-md) var(--r-md);
+  outline: 1.5px solid var(--fg);
+  outline-offset: 5px;
   overflow: hidden;
   background: var(--surface-2);
 }
-.menu-visual img {
-  position: absolute;
-  inset: 0;
+.carte__photo img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0;
-  filter: blur(8px);
-  transform: scale(1.06);
-  transition:
-    opacity 500ms ease,
-    filter 500ms ease,
-    transform 900ms var(--ease-out);
-}
-.menu-visual img.is-active {
-  opacity: 1;
-  filter: blur(0);
-  transform: none;
 }
 
-.menu-panel__intro {
-  color: var(--muted);
-  margin-bottom: 0.75rem;
+.carte__list {
+  padding-left: clamp(1.25rem, 3.5vw, 3rem);
+  border-left: 1px solid var(--rule);
 }
 
 .dishes {
   display: grid;
-}
-.dish {
-  padding: 1.1rem 0;
-  border-bottom: 1px solid var(--line);
-}
-.dish:last-child {
-  border-bottom: 0;
+  gap: 1.1rem;
 }
 .dish__head {
   display: flex;
   align-items: baseline;
-  gap: 0.6rem;
+  gap: 0.5rem;
 }
 .dish__name {
-  font-size: 1.2rem;
-  font-stretch: 90%;
+  font-size: 0.98rem;
+  font-weight: 800;
+  font-stretch: 88%;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 .dish__leader {
+  position: relative;
+  top: -0.3rem;
   flex: 1;
   min-width: 1rem;
-  border-bottom: 2px dotted var(--line);
-  transform: translateY(-0.3rem);
+  border-bottom: 2px dotted color-mix(in srgb, var(--fg) 38%, transparent);
+  transition: border-color 150ms ease;
 }
 .dish__price {
   font-weight: 800;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
+  transition: color 150ms ease;
 }
 .dish__desc {
   margin-top: 0.15rem;
+  max-width: 46ch;
   color: var(--muted);
-  font-size: 0.98rem;
+  font-size: 0.95rem;
+  line-height: 1.45;
 }
-.dish__tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.35rem;
-  margin-top: 0.5rem;
+@media (hover: hover) and (pointer: fine) {
+  .dish:hover .dish__leader {
+    border-color: var(--fg);
+  }
+  .dish:hover .dish__price {
+    color: var(--sauce);
+  }
+}
+
+/* Dietary marks: small icons after the name, explained once in the legend. */
+.mark {
+  display: inline-flex;
+  align-items: center;
+  align-self: center;
+  gap: 0.3rem;
+}
+.mark .icon {
+  width: 1.05rem;
+  height: 1.05rem;
+}
+.mark--veg {
+  color: var(--basil);
+}
+.mark--spicy {
+  color: var(--sauce);
+}
+.mark--new,
+.mark--signature {
+  color: var(--gold);
 }
 
 .menu-empty {
   display: grid;
   justify-items: start;
   gap: 1rem;
-  padding: 2rem;
-  border: 2px dashed var(--line);
+  padding: 1.75rem;
+  border: 2px dashed var(--rule);
   border-radius: var(--r-md);
   color: var(--muted);
 }
 
-.menu-foot {
+/* ——— Foot of the card: legend and the wine line ——— */
+.carte__foot {
+  display: grid;
+  gap: 0.9rem;
+  margin-top: 2.25rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--rule);
+}
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.4rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.legend .mark {
+  gap: 0.35rem;
+}
+.legend .mark span {
+  color: var(--muted);
+}
+.carte__wine {
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  margin-top: 2.5rem;
   color: var(--muted);
+  font-size: 0.95rem;
+}
+.carte__wine .icon {
+  flex: none;
+  color: var(--sauce);
 }
 
+/* ——— Tablet and phone: one column, the cover becomes a title row with a small arch photo ——— */
 @media (max-width: 900px) {
-  .menu-body {
+  .menu-panel {
     grid-template-columns: 1fr;
   }
-  .menu-visual {
-    position: relative;
-    top: 0;
-    aspect-ratio: 16 / 9;
+  .carte__cover {
+    position: static;
+    grid-template-columns: minmax(0, 1fr) 7.25rem;
+    align-items: center;
+    gap: 1.1rem;
+    padding: 0 0 1.25rem;
+    margin-bottom: 1.35rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .carte__title {
+    font-size: clamp(1.8rem, 7vw, 2.4rem);
+  }
+  .orn {
+    width: 7rem;
+    margin-block: 0.6rem 0.5rem;
+  }
+  .menu-panel__intro {
+    max-width: none;
+    font-size: 0.95rem;
+  }
+  .carte__photo {
+    width: 100%;
+    outline-offset: 4px;
+  }
+  .carte__list {
+    padding-left: 0;
+    border-left: 0;
   }
 }
 @media (max-width: 640px) {
-  .menu-tools {
-    margin-inline: calc(-1 * var(--gutter));
-    padding-inline: var(--gutter);
+  .carte {
+    padding-top: 2.4rem;
   }
   /* All four categories visible at once: no hidden tabs behind a sideways scroll. */
   .tabs {
     display: grid;
     grid-template-columns: 1fr 1fr;
     width: 100%;
-    border-radius: 1.75rem;
+    border-radius: 1.4rem;
     overflow: visible;
   }
   .tabs__tab {
-    width: 100%;
-    min-height: 44px;
-    padding: 0.55rem 0.5rem;
-    font-size: 0.94rem;
-    line-height: 1.2;
+    min-height: 2.5rem;
+    padding: 0.4rem 0.4rem;
+    line-height: 1.15;
     white-space: normal;
     text-wrap: balance;
   }
+  /* The three filters fit on one line once the word "Filtrer" steps aside. */
+  .filters__label {
+    display: none;
+  }
   .filters {
-    gap: 0.4rem;
+    gap: 0.3rem;
+  }
+  .filter {
+    padding-inline: 0.5rem;
+  }
+  .dish__name {
+    font-size: 0.92rem;
+    letter-spacing: 0.05em;
+  }
+}
+@media (max-width: 380px) {
+  .carte__cover {
+    grid-template-columns: minmax(0, 1fr) 6rem;
   }
 }
