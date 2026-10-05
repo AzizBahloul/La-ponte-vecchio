@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content" />
+    <meta name="color-scheme" content="light" />
+    <title>La Ponte Vecchio, pizzeria à Cesson-Sévigné</title>
+    <meta
+      name="description"
+      content="Pizzeria familiale au bord de la Vilaine à Cesson-Sévigné. Pizzas fines en pâte classique ou au charbon végétal, plat du jour le midi, sur place ou à emporter. 02 99 83 42 52."
+    />
+    <meta name="theme-color" content="#FFF6E4" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" as="image" href="/media/hero.webp" fetchpriority="high" />
+
+    <meta property="og:type" content="restaurant" />
+    <meta property="og:title" content="La Ponte Vecchio, pizzeria à Cesson-Sévigné" />
+    <meta property="og:description" content="Pizzas fines, pâte dorée ou pâte noire. Au bord de la Vilaine." />
+    <meta property="og:image" content="/media/hero.webp" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Restaurant",
+        "name": "La Ponte Vecchio",
+        "servesCuisine": ["Pizza", "Italienne"],
+        "telephone": "+33299834252",
+        "priceRange": "€",
+        "acceptsReservations": true,
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "4 cours de la Vilaine",
+          "postalCode": "35510",
+          "addressLocality": "Cesson-Sévigné",
+          "addressCountry": "FR"
+        },
+        "openingHoursSpecification": [
+          { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Tuesday", "Wednesday", "Thursday", "Friday"], "opens": "12:00", "closes": "14:00" },
+          { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Tuesday", "Wednesday", "Thursday", "Friday"], "opens": "19:00", "closes": "21:45" }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#carte">Aller au contenu</a>
+    <div id="app"></div>
+    <noscript>
+      <p style="padding:2rem;font-family:system-ui">
+        La Ponte Vecchio, 4 cours de la Vilaine, 35510 Cesson-Sévigné. Réservations au 02 99 83 42 52.
+      </p>
+    </noscript>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

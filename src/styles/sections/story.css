@@ -1,0 +1,151 @@
+.story {
+  padding: 0;
+  background: var(--surface-2);
+  overflow: clip;
+}
+.story__pin {
+  display: grid;
+  gap: clamp(2rem, 4vw, 3rem);
+  padding-block: var(--section-y);
+}
+.story__head {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: end;
+  gap: 0.75rem 2rem;
+}
+.story__head p {
+  color: var(--muted);
+  font-size: 1.1rem;
+  padding-bottom: 0.4rem;
+}
+.story__track {
+  display: flex;
+  gap: clamp(1rem, 2vw, 1.5rem);
+  width: max-content;
+  padding-inline: max(var(--gutter), (100vw - var(--maxw)) / 2);
+}
+.step {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  width: clamp(280px, 30vw, 400px);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.step__media {
+  position: relative;
+  aspect-ratio: 4 / 3.4;
+  overflow: hidden;
+  background: var(--crust-coal);
+}
+.step__media > :not(.vid-toggle) {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* Pause / play for the looping clips. */
+.vid-toggle {
+  position: absolute;
+  right: 0.6rem;
+  bottom: 0.6rem;
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 0;
+  border-radius: var(--r-pill);
+  background: rgb(23 21 19 / 0.62);
+  color: #fff;
+  cursor: pointer;
+  transition:
+    transform var(--press) var(--ease-out),
+    background-color 200ms ease;
+}
+.vid-toggle:active {
+  transform: scale(0.92);
+}
+@media (hover: hover) and (pointer: fine) {
+  .vid-toggle:hover {
+    background: rgb(23 21 19 / 0.8);
+  }
+}
+.vid-toggle .icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.step__body {
+  display: grid;
+  align-content: start;
+  gap: 0.5rem;
+  padding: 1.25rem 1.4rem 1.5rem;
+}
+.step__body h3 {
+  font-size: 1.6rem;
+  font-stretch: 80%;
+}
+.step__body p {
+  color: var(--muted);
+}
+.step__figure {
+  justify-self: start;
+  text-wrap: balance;
+  margin-top: 0.35rem;
+  padding: 0.2rem 0.75rem;
+  border-radius: 0.9rem;
+  background: color-mix(in srgb, var(--basil) 13%, var(--surface));
+  color: var(--basil);
+  font-weight: 700;
+  font-size: 0.88rem;
+}
+
+/* Wide screens: the five steps sit in one row, read left to right. */
+@media (min-width: 1100px) {
+  .story__track {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    width: min(var(--maxw), 100% - 2 * var(--gutter));
+    margin-inline: auto;
+    padding-inline: 0;
+  }
+  .step {
+    width: auto;
+  }
+  .step__media {
+    aspect-ratio: 4 / 4.6;
+  }
+  .step__body {
+    padding: 1.1rem 1.15rem 1.3rem;
+  }
+  .step__body h3 {
+    font-size: 1.35rem;
+  }
+  .step__body p {
+    font-size: 0.95rem;
+  }
+}
+
+/* Smaller screens: a swipeable row. */
+@media (max-width: 1099px) {
+  .story__viewport {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    padding-bottom: 1rem;
+  }
+  .story__viewport::-webkit-scrollbar {
+    display: none;
+  }
+  .step {
+    scroll-snap-align: center;
+    width: min(82vw, 340px);
+  }
+}
+@media (max-width: 640px) {
+  .story__head {
+    grid-template-columns: 1fr;
+  }
+}

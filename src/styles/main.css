@@ -1,0 +1,20 @@
+/* Self-hosted fonts (RGPD: no request to Google Fonts). */
+@import '@fontsource-variable/bricolage-grotesque/standard.css';
+@import '@fontsource/kalam/latin-400.css';
+@import '@fontsource/kalam/latin-700.css';
+
+@import './tokens.css';
+@import './base.css';
+@import './components.css';
+
+@import './sections/nav.css';
+@import './sections/hero.css';
+@import './sections/menu.css';
+@import './sections/daily.css';
+@import './sections/charbon.css';
+@import './sections/story.css';
+@import './sections/gallery.css';
+@import './sections/reviews.css';
+@import './sections/booking.css';
+@import './sections/infos.css';
+@import './sections/footer.css';

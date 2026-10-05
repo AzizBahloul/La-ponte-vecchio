@@ -1,0 +1,486 @@
+.booking {
+  background: var(--surface);
+  border-block: 1px solid var(--line);
+}
+.booking__grid {
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: clamp(2rem, 6vw, 5rem);
+  align-items: start;
+}
+.booking__aside {
+  position: sticky;
+  top: calc(var(--nav-h) + 1.5rem);
+  display: grid;
+  gap: 1.25rem;
+}
+.booking__aside > p {
+  color: var(--muted);
+}
+
+.summary {
+  padding: 1.25rem 1.4rem;
+  border-radius: var(--r-md);
+  background: var(--sun);
+  color: var(--ink);
+}
+.summary__label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  opacity: 0.72;
+}
+.summary__text {
+  margin-top: 0.2rem;
+  font-size: 1.25rem;
+  font-weight: 800;
+  font-stretch: 88%;
+  line-height: 1.3;
+}
+.summary__text::first-letter {
+  text-transform: uppercase;
+}
+.booking__call {
+  display: grid;
+  gap: 0.35rem;
+  color: var(--muted);
+}
+.booking__call .tel-big {
+  color: var(--fg);
+}
+
+/* ——— Form ——— */
+.form {
+  display: grid;
+  gap: 1.75rem;
+}
+.form__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+fieldset {
+  border: 0;
+  min-width: 0;
+}
+.field {
+  display: grid;
+  gap: 0.5rem;
+  align-content: start;
+}
+.field legend,
+.field > label,
+.field__label {
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin-bottom: 0.15rem;
+}
+.field legend {
+  margin-bottom: 0.65rem;
+}
+.optional {
+  font-weight: 500;
+  color: var(--muted);
+}
+.field input[type='text'],
+.field input[type='tel'],
+.field input[type='date'],
+.field textarea {
+  width: 100%;
+  padding: 0.8rem 0.95rem;
+  border: 2px solid var(--line);
+  border-radius: var(--r-sm);
+  background: var(--bg);
+  color: var(--fg);
+  font: inherit;
+  transition: border-color 200ms ease;
+}
+.field input::placeholder,
+.field textarea::placeholder {
+  color: var(--muted);
+  opacity: 0.8;
+}
+.field input:focus,
+.field textarea:focus {
+  outline: none;
+  border-color: var(--sauce);
+}
+.field textarea {
+  resize: vertical;
+  min-height: 5.5rem;
+}
+.hint {
+  font-size: 0.86rem;
+  color: var(--muted);
+}
+.err {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--link);
+}
+.err:empty {
+  display: none;
+}
+.field.is-invalid input {
+  border-color: var(--link);
+}
+
+/* Hidden native radios, visible custom controls. Keyboard focus is forwarded to the label. */
+.date-chip input,
+.segmented input,
+.slot input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.date-chips {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding: 0.2rem 0.2rem 0.6rem;
+  margin: -0.2rem;
+  scroll-snap-type: x proximity;
+  scrollbar-width: thin;
+}
+.date-chip {
+  position: relative;
+  flex: none;
+  display: grid;
+  justify-items: center;
+  gap: 0.05rem;
+  min-width: 4.6rem;
+  padding: 0.6rem 0.5rem;
+  border: 2px solid var(--line);
+  border-radius: var(--r-md);
+  cursor: pointer;
+  scroll-snap-align: start;
+  transition:
+    transform var(--press) var(--ease-out),
+    background-color 200ms ease,
+    border-color 200ms ease,
+    color 200ms ease;
+}
+.date-chip:active {
+  transform: scale(0.96);
+}
+.date-chip__dow {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  color: var(--muted);
+}
+.date-chip__day {
+  font-size: 1.5rem;
+  font-weight: 800;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+.date-chip__month {
+  font-size: 0.8rem;
+  text-transform: capitalize;
+}
+.date-chip--other .icon {
+  width: 1.5rem;
+  height: 1.8rem;
+}
+.date-chip:has(input:checked) {
+  background: var(--fg);
+  border-color: var(--fg);
+  color: var(--bg);
+}
+.date-chip:has(input:checked) .date-chip__dow {
+  color: inherit;
+  opacity: 0.8;
+}
+.date-chip:has(input:focus-visible),
+.segmented label:has(input:focus-visible),
+.slot:has(input:focus-visible) {
+  outline: 3px solid var(--sauce);
+  outline-offset: 2px;
+}
+@media (hover: hover) and (pointer: fine) {
+  .date-chip:hover,
+  .slot:not(:has(input:disabled)):hover {
+    border-color: var(--fg);
+  }
+}
+@media (min-width: 1100px) {
+  .date-chips {
+    flex-wrap: wrap;
+    overflow: visible;
+  }
+}
+.other-date {
+  display: grid;
+  gap: 0.4rem;
+  margin-top: 0.9rem;
+  max-width: 18rem;
+}
+.other-date label {
+  font-weight: 600;
+  font-size: 0.92rem;
+}
+
+.segmented {
+  display: inline-flex;
+  justify-self: start;
+  padding: 4px;
+  border: 2px solid var(--line);
+  border-radius: var(--r-pill);
+}
+.segmented label {
+  position: relative;
+  cursor: pointer;
+}
+.segmented span {
+  display: block;
+  padding: 0.6rem 1.4rem;
+  min-height: 44px;
+  border-radius: var(--r-pill);
+  font-weight: 700;
+  transition:
+    background-color 200ms ease,
+    color 200ms ease;
+}
+.segmented input:checked + span {
+  background: var(--fg);
+  color: var(--bg);
+}
+
+.stepper {
+  display: inline-flex;
+  align-items: center;
+  width: max-content;
+  border: 2px solid var(--line);
+  border-radius: var(--r-pill);
+}
+.stepper button {
+  display: grid;
+  place-items: center;
+  width: 2.9rem;
+  height: 2.9rem;
+  border: 0;
+  border-radius: var(--r-pill);
+  background: transparent;
+  cursor: pointer;
+  transition: transform var(--press) var(--ease-out);
+}
+.stepper button:active {
+  transform: scale(0.9);
+}
+.stepper button:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+.stepper output {
+  min-width: 2.5rem;
+  text-align: center;
+  font-weight: 800;
+  font-size: 1.2rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.slots {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(5.4rem, 1fr));
+  gap: 0.5rem;
+}
+.slot {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  padding: 0.6rem 0.3rem;
+  border: 2px solid var(--line);
+  border-radius: var(--r-pill);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  transition:
+    transform var(--press) var(--ease-out),
+    background-color 200ms ease,
+    border-color 200ms ease,
+    color 200ms ease;
+}
+.slot:active {
+  transform: scale(0.96);
+}
+.slot small {
+  font-size: 0.7rem;
+  font-weight: 600;
+  line-height: 1;
+}
+.slot:has(input:checked) {
+  background: var(--sauce);
+  border-color: var(--sauce);
+  color: #fff;
+}
+.slot:has(input:disabled) {
+  color: var(--muted);
+  border-style: dashed;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+.slot:has(input:disabled) span {
+  text-decoration: line-through;
+}
+.slots__empty {
+  grid-column: 1 / -1;
+  color: var(--muted);
+}
+
+.form__send {
+  display: grid;
+  justify-items: start;
+}
+.form__recap {
+  display: none;
+}
+.form__submit.is-loading .form__submit-label {
+  animation: pulse 900ms ease-in-out infinite alternate;
+}
+@keyframes pulse {
+  to {
+    opacity: 0.55;
+  }
+}
+
+/* ——— Success ——— */
+.done {
+  display: grid;
+  gap: 0.75rem;
+  justify-items: start;
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  border: 2px solid var(--basil);
+  border-radius: var(--r-md);
+}
+.done {
+  position: relative;
+}
+.done__burst {
+  position: absolute;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+.bit {
+  position: absolute;
+  left: -6px;
+  top: -6px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  opacity: 0;
+}
+.bit--basil {
+  width: 18px;
+  height: 11px;
+  border-radius: 0 100% 0 100%;
+  background: var(--basil);
+}
+.bit--tomato {
+  background: var(--sauce);
+}
+.bit--cheese {
+  width: 14px;
+  height: 13px;
+  border-radius: 45% 55% 50% 50%;
+  background: #f6efe0;
+  box-shadow: inset 0 0 0 1px rgb(60 40 20 / 0.12);
+}
+.done h3 {
+  font-size: 1.75rem;
+  font-stretch: 85%;
+}
+.done__check {
+  width: 3.25rem;
+  height: 3.25rem;
+}
+.done__check circle,
+.done__check path {
+  fill: none;
+  stroke: var(--basil);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.done__check circle {
+  stroke-dasharray: 151;
+}
+.done__check path {
+  stroke-dasharray: 40;
+}
+.done__list {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.35rem 1.25rem;
+  margin: 0.5rem 0;
+}
+.done__list dt {
+  color: var(--muted);
+}
+.done__list dd {
+  font-weight: 700;
+}
+.done__list dd::first-letter {
+  text-transform: uppercase;
+}
+.done__demo {
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+.done__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 900px) {
+  .booking__grid {
+    grid-template-columns: 1fr;
+  }
+  .booking__aside {
+    position: static;
+  }
+  /* The summary card scrolls away on a phone: the send bar keeps the choice in view. */
+  .form__send {
+    position: sticky;
+    bottom: 0;
+    z-index: 2;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 0.75rem;
+    margin-inline: calc(-1 * var(--gutter));
+    padding: 0.75rem var(--gutter) calc(0.75rem + env(safe-area-inset-bottom, 0px));
+    background: color-mix(in srgb, var(--surface) 94%, transparent);
+    border-top: 1px solid var(--line);
+  }
+  .form__recap {
+    display: block;
+    font-size: 0.88rem;
+    font-weight: 700;
+    line-height: 1.3;
+    min-width: 0;
+  }
+  .form__recap::first-letter {
+    text-transform: uppercase;
+  }
+}
+@media (max-width: 480px) {
+  .form__send {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+  .form__send .form__submit {
+    justify-self: stretch;
+  }
+}
+@media (max-width: 520px) {
+  .form__row {
+    grid-template-columns: 1fr;
+  }
+  .date-chips {
+    margin-inline: calc(-1 * var(--gutter));
+    padding-inline: var(--gutter);
+  }
+}

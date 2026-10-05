@@ -1,0 +1,68 @@
+/*
+ * Design tokens. A trattoria palette: tomato red, sunny yellow, basil green on warm cream,
+ * like the checked tablecloth and striped awning of an Italian pizzeria. Light only on purpose:
+ * a pizzeria is warm and bright, it does not follow the visitor's night mode.
+ *
+ * Contrast: cream on tomato 5.0:1, ink on sun yellow 12:1, white on tomato 5.6:1, tomato on cream 5.4:1.
+ *
+ * Shape system: controls → pill var(--r-pill) · media and cards → var(--r-md) · inputs → var(--r-sm)
+ * z-index scale: callbar 25 · nav 30 · mobile sheet 40 · dialog uses the top layer.
+ */
+:root {
+  /* Brand */
+  --sauce: #c62f1d; /* tomato: buttons, links, hero, reviews */
+  --sauce-deep: #9f2112;
+  --sun: #ffc93c; /* sunny yellow: highlights, marquee, secondary buttons */
+  --sun-deep: #f2b01e;
+  --basil: #2e7d3a;
+  --basil-deep: #1e4d2b;
+  --slate: #26302b;
+  --crust-gold: #e9be78;
+  --gold: #c47f00; /* stars on cream */
+  --crust-coal: #2b2724;
+  --chalk: #f4f1ea;
+  --chalk-yellow: #f3c969;
+  --ink: #231b17;
+
+  /* Surfaces */
+  --bg: #fff6e4;
+  --surface: #fffdf7;
+  --surface-2: #ffe9c2;
+  --hero-bg: var(--sauce);
+  --hero-fg: #fff4e1;
+  --brand-bg: #fff6e4; /* top bar */
+  --fg: #231b17;
+  --muted: #6b5a4d;
+  --line: rgb(35 27 23 / 0.13);
+  --link: var(--sauce);
+  --footer-bg: var(--basil-deep);
+  --footer-fg: #fff4e1;
+  --shadow: 0 1px 2px rgb(90 40 10 / 0.07), 0 14px 34px -14px rgb(120 40 10 / 0.28);
+
+  /* Shape */
+  --r-sm: 10px;
+  --r-md: 20px;
+  --r-pill: 999px;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  --press: 160ms;
+
+  /* Layout */
+  --gutter: clamp(1rem, 4vw, 2.5rem);
+  --maxw: 1240px;
+  --nav-h: 4.25rem;
+  --section-y: clamp(4.5rem, 10vw, 8rem);
+
+  /* Type */
+  --font: 'Bricolage Grotesque Variable', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-chalk: 'Kalam', 'Segoe Print', 'Bradley Hand', cursive;
+
+  /* Gingham tablecloth, to lay over a coloured surface */
+  --gingham: linear-gradient(90deg, rgb(255 255 255 / 0.1) 50%, transparent 50%),
+    linear-gradient(rgb(255 255 255 / 0.1) 50%, transparent 50%);
+
+  color-scheme: light;
+}

@@ -1,0 +1,203 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+  scroll-padding-top: calc(var(--nav-h) + 1rem);
+  scrollbar-color: color-mix(in srgb, var(--fg) 35%, transparent) var(--bg);
+  caret-color: var(--sauce);
+}
+::selection {
+  background: var(--crust-gold);
+  color: var(--ink);
+}
+
+/* Controls react on press, never select their label on long-press, and skip the double-tap zoom wait. */
+button,
+.btn,
+.chip,
+.date-chip,
+.slot,
+.segmented label,
+.tile__btn {
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+a {
+  touch-action: manipulation;
+}
+/* Horizontal scrollers keep their swipe to themselves instead of nudging the page. */
+.tabs,
+.date-chips,
+.carousel__track,
+.story__viewport {
+  overscroll-behavior-x: contain;
+}
+html.has-smooth-scroll {
+  scroll-behavior: auto;
+}
+html.is-locked {
+  overflow: hidden;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+}
+
+img,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+}
+img,
+video {
+  height: auto;
+}
+
+a {
+  color: inherit;
+}
+button {
+  font: inherit;
+  color: inherit;
+}
+ul,
+ol {
+  list-style: none;
+}
+[hidden] {
+  display: none !important;
+}
+
+:focus-visible {
+  outline: 3px solid var(--sauce);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+[tabindex='-1']:focus {
+  outline: none;
+}
+
+.wrap {
+  width: min(var(--maxw), 100% - 2 * var(--gutter));
+  margin-inline: auto;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.sr-only {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.skip-link {
+  position: fixed;
+  left: 1rem;
+  top: 1rem;
+  z-index: 100;
+  padding: 0.75rem 1rem;
+  border-radius: var(--r-pill);
+  background: var(--fg);
+  color: var(--bg);
+  font-weight: 700;
+  transform: translateY(-200%);
+}
+.skip-link:focus {
+  transform: none;
+}
+
+/* ——— Type ——— */
+h1,
+h2,
+h3 {
+  font-weight: 800;
+  line-height: 1.05;
+  text-wrap: balance;
+}
+h2 {
+  font-size: clamp(2.25rem, 5.2vw, 4rem);
+  font-stretch: 80%;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+h3 {
+  font-size: 1.25rem;
+  font-stretch: 88%;
+}
+p {
+  text-wrap: pretty;
+}
+
+section {
+  padding-block: var(--section-y);
+  /* Entrances start off to the side: never let them widen the page. (clip, unlike hidden,
+     keeps position: sticky working inside the section.) */
+  overflow-x: clip;
+}
+
+.sec-head {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: clamp(2.25rem, 5vw, 3.5rem);
+  max-width: 44rem;
+}
+.sec-head__lede {
+  color: var(--muted);
+  font-size: 1.125rem;
+  max-width: 38rem;
+}
+
+/* Headline words rise from behind a mask (see animations/reveal.ts). */
+.word {
+  display: inline-block;
+  overflow: clip;
+  overflow-clip-margin: 0.12em;
+  vertical-align: top;
+  padding-bottom: 0.1em;
+  margin-bottom: -0.1em;
+}
+.word > span {
+  display: inline-block;
+  will-change: transform;
+}
+
+.icon {
+  width: 1.15em;
+  height: 1.15em;
+  flex: none;
+}
+
+/* Reduced motion: nothing travels, scales or loops, but state changes still fade
+   so a click never feels like a hard cut. */
+@media not all {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-property: color, background-color, border-color, opacity !important;
+    transition-duration: 150ms !important;
+  }
+}

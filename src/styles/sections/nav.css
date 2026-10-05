@@ -1,0 +1,285 @@
+/* Frosted glass: see-through over the hero, a little firmer once the page has moved. */
+@property --nav-alpha {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 70%;
+}
+.nav {
+  --nav-alpha: 70%;
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 30;
+  padding-top: env(safe-area-inset-top, 0px);
+  background: color-mix(in srgb, var(--brand-bg) var(--nav-alpha), transparent);
+  backdrop-filter: blur(16px) saturate(170%);
+  -webkit-backdrop-filter: blur(16px) saturate(170%);
+  color: var(--fg);
+  border-bottom: 1px solid rgb(255 255 255 / 0.35);
+  box-shadow: 0 10px 30px -22px rgb(90 30 10 / 0);
+  transition:
+    --nav-alpha 400ms var(--ease-out),
+    box-shadow 400ms var(--ease-out),
+    border-color 400ms ease;
+}
+.nav.is-scrolled {
+  --nav-alpha: 86%;
+  border-bottom-color: var(--line);
+  box-shadow: 0 14px 34px -20px rgb(90 30 10 / 0.4);
+}
+.nav__inner {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  height: var(--nav-h);
+}
+
+.brand {
+  padding-block: 0.6rem;
+  font-weight: 800;
+  font-size: 1.2rem;
+  font-stretch: 82%;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.brand__pizza {
+  width: 1.35rem;
+  height: 1.35rem;
+  flex: none;
+  overflow: visible;
+  transition: rotate 700ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .brand:hover .brand__pizza {
+    rotate: 180deg;
+  }
+}
+.brand__slice {
+  fill: var(--sauce);
+  stroke: var(--crust-gold);
+  stroke-width: 1.4;
+  stroke-linejoin: round;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition:
+    opacity 260ms ease,
+    transform 360ms var(--ease-out);
+}
+/* A slice lifts out and away, the way a hand would take it. */
+.brand__slice.is-eaten {
+  opacity: 0;
+  transform: translate(0, -3px) scale(0.6);
+}
+
+.nav__links {
+  position: relative;
+  margin-left: auto;
+}
+.nav__links ul {
+  position: relative;
+  display: flex;
+  gap: 0.25rem;
+}
+.nav__links a {
+  position: relative;
+  z-index: 1;
+  display: block;
+  padding: 0.5rem 0.8rem;
+  border-radius: var(--r-pill);
+  font-weight: 600;
+  font-size: 0.97rem;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 250ms ease;
+}
+.nav__links a[aria-current] {
+  color: var(--sauce);
+}
+
+/* The sliding highlight behind the links. Moved from JS, glided by CSS so it can be interrupted. */
+.nav__pill {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  height: 2.35rem;
+  margin-top: -1.175rem;
+  border-radius: var(--r-pill);
+  background: color-mix(in srgb, var(--sauce) 12%, transparent);
+  opacity: 0;
+  transition:
+    transform 420ms var(--ease-out),
+    width 420ms var(--ease-out),
+    opacity 220ms ease,
+    background-color 250ms ease;
+}
+.nav__pill.is-on {
+  opacity: 1;
+}
+.nav__pill.is-instant {
+  transition: opacity 220ms ease;
+}
+.nav__pill.is-hover {
+  background: color-mix(in srgb, var(--fg) 10%, transparent);
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.status__dot {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: #7a6f63;
+}
+.status__dot {
+  position: relative;
+}
+.status.is-open .status__dot {
+  background: #1f7a35;
+}
+/* A calm ring that breathes out of the dot while the restaurant is open. */
+.status.is-open .status__dot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: #1f7a35;
+  animation: open-ping 2.4s var(--ease-out) infinite;
+}
+@keyframes open-ping {
+  from {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  to {
+    transform: scale(3.2);
+    opacity: 0;
+  }
+}
+
+.nav__cta {
+  --btn-border: var(--sauce);
+}
+
+.nav__burger {
+  display: none;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  margin-right: -0.5rem;
+  border: 0;
+  border-radius: var(--r-pill);
+  background: transparent;
+  cursor: pointer;
+}
+.nav__burger .icon {
+  width: 1.6rem;
+  height: 1.6rem;
+}
+
+@media (max-width: 1080px) {
+  .nav__links {
+    display: none;
+  }
+  .status {
+    margin-left: auto;
+  }
+  .nav__burger {
+    display: grid;
+  }
+}
+@media (max-width: 560px) {
+  .nav__cta {
+    display: none;
+  }
+  .nav__inner {
+    gap: 0.6rem;
+  }
+  .brand {
+    gap: 0.4rem;
+    font-size: 1rem;
+  }
+  .brand__pizza {
+    width: 1.15rem;
+    height: 1.15rem;
+  }
+  .status {
+    font-size: 0.78rem;
+  }
+}
+/* Too narrow for brand + hours + menu button: the hours live in the hero and the footer. */
+@media (max-width: 359px) {
+  .status {
+    display: none;
+  }
+  .nav__burger {
+    margin-left: auto;
+  }
+}
+
+/* ——— Mobile sheet ——— */
+.sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  padding: env(safe-area-inset-top, 0px) 0 calc(env(safe-area-inset-bottom, 0px) + 1.5rem);
+  background-color: var(--hero-bg);
+  background-image: var(--gingham);
+  background-size: 64px 64px;
+  color: var(--hero-fg);
+  overflow-y: auto;
+}
+.sheet__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--nav-h);
+}
+.sheet__close {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  margin-right: -0.5rem;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+.sheet__close .icon {
+  width: 1.6rem;
+  height: 1.6rem;
+}
+.sheet__links {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+.sheet__links ul {
+  display: grid;
+  gap: 0.25rem;
+}
+.sheet__links a {
+  font-size: clamp(2rem, 9vw, 3rem);
+  font-weight: 800;
+  font-stretch: 78%;
+  line-height: 1.15;
+  text-decoration: none;
+}
+.sheet__foot {
+  display: grid;
+  gap: 0.75rem;
+  justify-items: start;
+}

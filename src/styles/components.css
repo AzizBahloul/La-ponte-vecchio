@@ -1,0 +1,211 @@
+/* ——— Buttons ——— */
+.btn {
+  --btn-bg: transparent;
+  --btn-fg: currentColor;
+  --btn-border: currentColor;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  padding: 0.8rem 1.35rem;
+  border: 2px solid var(--btn-border);
+  border-radius: var(--r-pill);
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  font-weight: 700;
+  line-height: 1.2;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    transform var(--press) var(--ease-out),
+    background-color 200ms ease,
+    color 200ms ease,
+    border-color 200ms ease;
+}
+.btn:active {
+  transform: scale(0.97);
+}
+.btn--sm {
+  padding: 0.55rem 1rem;
+  font-size: 0.95rem;
+}
+.btn--lg {
+  padding: 1rem 1.6rem;
+  font-size: 1.06rem;
+}
+.btn--primary {
+  --btn-bg: var(--sauce);
+  --btn-fg: #fff;
+  --btn-border: var(--sauce);
+}
+.btn--sun {
+  --btn-bg: var(--sun);
+  --btn-fg: var(--ink);
+  --btn-border: var(--sun);
+}
+.btn--light {
+  --btn-bg: #fff;
+  --btn-fg: #1e1b18;
+  --btn-border: #fff;
+}
+.btn .icon {
+  transition: transform 300ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .btn--primary:hover {
+    --btn-bg: var(--sauce-deep);
+    --btn-border: var(--sauce-deep);
+  }
+  .btn--sun:hover {
+    --btn-bg: #ffd966;
+    --btn-border: #ffd966;
+  }
+  .btn--ghost:hover {
+    --btn-bg: var(--fg);
+    --btn-fg: var(--bg);
+    --btn-border: var(--fg);
+  }
+  .btn:hover .icon:last-child:not(:first-child) {
+    transform: translateX(3px);
+  }
+}
+/* Fingers need 44px, whatever the visual size. */
+@media (pointer: coarse) {
+  .btn,
+  .chip {
+    min-height: 44px;
+  }
+}
+.btn[disabled] {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.round-btn {
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: var(--r-pill);
+  border: 2px solid var(--line);
+  background: var(--surface);
+  cursor: pointer;
+  transition:
+    transform var(--press) var(--ease-out),
+    border-color 200ms ease,
+    opacity 200ms ease;
+}
+.round-btn:active {
+  transform: scale(0.95);
+}
+.round-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+@media (hover: hover) and (pointer: fine) {
+  .round-btn:not(:disabled):hover {
+    border-color: var(--fg);
+  }
+}
+
+/* ——— Chips & tags ——— */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.95rem;
+  border: 2px solid var(--line);
+  border-radius: var(--r-pill);
+  background: transparent;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition:
+    transform var(--press) var(--ease-out),
+    background-color 200ms ease,
+    color 200ms ease,
+    border-color 200ms ease;
+}
+.chip:active {
+  transform: scale(0.96);
+}
+.chip[aria-pressed='true'] {
+  background: var(--fg);
+  border-color: var(--fg);
+  color: var(--bg);
+}
+@media (hover: hover) and (pointer: fine) {
+  .chip:hover {
+    border-color: var(--fg);
+  }
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.1rem 0.55rem 0.1rem 0.45rem;
+  border: 1.5px solid currentColor;
+  border-radius: var(--r-pill);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+.tag .icon {
+  width: 0.95em;
+  height: 0.95em;
+}
+.tag--veg {
+  color: var(--basil);
+}
+.tag--spicy {
+  color: var(--link);
+}
+.tag--new,
+.tag--signature {
+  color: var(--muted);
+}
+
+/* ——— Links ——— */
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-weight: 700;
+  color: var(--link);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 2px;
+  min-height: 44px;
+}
+.tel-big {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 48px;
+  font-size: clamp(1.6rem, 3vw, 2rem);
+  font-weight: 800;
+  font-stretch: 85%;
+  text-decoration: none;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ——— Highlight marker in the hero headline ——— */
+.hl {
+  --hl: 1;
+  color: inherit;
+  padding: 0 0.12em;
+  margin: 0 -0.04em;
+  border-radius: 0.18em;
+  background: linear-gradient(var(--hl-bg), var(--hl-bg)) no-repeat left 55% / calc(var(--hl) * 100%) 82%;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+.hl--gold {
+  --hl-bg: var(--crust-gold);
+  color: var(--ink);
+}
+.hl--coal {
+  --hl-bg: var(--crust-coal);
+  color: var(--crust-gold);
+}

@@ -1,0 +1,194 @@
+.menu-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem 2rem;
+  margin-bottom: 2.5rem;
+}
+
+/* Tabs with a sliding pill (position set from JS, animated by CSS so it can be interrupted). */
+.tabs {
+  position: relative;
+  display: flex;
+  gap: 0.25rem;
+  padding: 0.3rem;
+  border: 2px solid var(--fg);
+  border-radius: var(--r-pill);
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.tabs::-webkit-scrollbar {
+  display: none;
+}
+.tabs__pill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: var(--r-pill);
+  background: var(--fg);
+  transition:
+    transform 380ms var(--ease-out),
+    width 380ms var(--ease-out),
+    height 380ms var(--ease-out);
+}
+.tabs__tab {
+  position: relative;
+  z-index: 1;
+  flex: none;
+  padding: 0.6rem 1.15rem;
+  border: 0;
+  border-radius: var(--r-pill);
+  background: transparent;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 250ms ease;
+}
+.tabs__tab[aria-selected='true'] {
+  color: var(--bg);
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.menu-body {
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: start;
+}
+
+.menu-visual {
+  position: sticky;
+  top: calc(var(--nav-h) + 1.5rem);
+  aspect-ratio: 4 / 5;
+  border-radius: var(--r-md);
+  overflow: hidden;
+  background: var(--surface-2);
+}
+.menu-visual img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  filter: blur(8px);
+  transform: scale(1.06);
+  transition:
+    opacity 500ms ease,
+    filter 500ms ease,
+    transform 900ms var(--ease-out);
+}
+.menu-visual img.is-active {
+  opacity: 1;
+  filter: blur(0);
+  transform: none;
+}
+
+.menu-panel__intro {
+  color: var(--muted);
+  margin-bottom: 0.75rem;
+}
+
+.dishes {
+  display: grid;
+}
+.dish {
+  padding: 1.1rem 0;
+  border-bottom: 1px solid var(--line);
+}
+.dish:last-child {
+  border-bottom: 0;
+}
+.dish__head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+}
+.dish__name {
+  font-size: 1.2rem;
+  font-stretch: 90%;
+}
+.dish__leader {
+  flex: 1;
+  min-width: 1rem;
+  border-bottom: 2px dotted var(--line);
+  transform: translateY(-0.3rem);
+}
+.dish__price {
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.dish__desc {
+  margin-top: 0.15rem;
+  color: var(--muted);
+  font-size: 0.98rem;
+}
+.dish__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.5rem;
+}
+
+.menu-empty {
+  display: grid;
+  justify-items: start;
+  gap: 1rem;
+  padding: 2rem;
+  border: 2px dashed var(--line);
+  border-radius: var(--r-md);
+  color: var(--muted);
+}
+
+.menu-foot {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 2.5rem;
+  color: var(--muted);
+}
+
+@media (max-width: 900px) {
+  .menu-body {
+    grid-template-columns: 1fr;
+  }
+  .menu-visual {
+    position: relative;
+    top: 0;
+    aspect-ratio: 16 / 9;
+  }
+}
+@media (max-width: 640px) {
+  .menu-tools {
+    margin-inline: calc(-1 * var(--gutter));
+    padding-inline: var(--gutter);
+  }
+  /* All four categories visible at once: no hidden tabs behind a sideways scroll. */
+  .tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    border-radius: 1.75rem;
+    overflow: visible;
+  }
+  .tabs__tab {
+    width: 100%;
+    min-height: 44px;
+    padding: 0.55rem 0.5rem;
+    font-size: 0.94rem;
+    line-height: 1.2;
+    white-space: normal;
+    text-wrap: balance;
+  }
+  .filters {
+    gap: 0.4rem;
+  }
+}
