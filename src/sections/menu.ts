@@ -1,4 +1,5 @@
 import { html, $, $$ } from '../lib/html';
+import { asset } from '../lib/asset';
 import { icon, type IconName } from '../lib/icons';
 import { charcoalSupplement, formatPrice, menu, menuFilters, tagLabels, type Dish, type DishTag } from '../data/menu';
 import { gsap } from '../animations/scroll';
@@ -58,7 +59,7 @@ export function renderMenu() {
         <div class="menu-body">
           <div class="menu-visual" aria-hidden="true" data-reveal="clip">
             ${menu.map(
-              (c, i) => html`<img src="${c.image.src}" alt="" loading="lazy" decoding="async" data-visual="${c.id}" class="${i === 0 ? 'is-active' : ''}" />`,
+              (c, i) => html`<img src="${asset(c.image.src)}" alt="" loading="lazy" decoding="async" data-visual="${c.id}" class="${i === 0 ? 'is-active' : ''}" />`,
             )}
           </div>
 

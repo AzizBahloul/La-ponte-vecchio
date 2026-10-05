@@ -1,4 +1,5 @@
 import { html, $, $$ } from '../lib/html';
+import { asset } from '../lib/asset';
 import { icon } from '../lib/icons';
 import { gallery } from '../data/content';
 import { gsap, lockScroll } from '../animations/scroll';
@@ -18,7 +19,7 @@ export function renderGallery() {
               <li class="tile tile--${g.size}">
                 <button class="tile__btn" type="button" data-index="${i}" aria-label="Agrandir : ${g.caption}">
                   <span class="tile__frame" data-reveal="clip">
-                    <img src="${g.src}" alt="${g.alt}" loading="lazy" decoding="async" />
+                    <img src="${asset(g.src)}" alt="${g.alt}" loading="lazy" decoding="async" />
                   </span>
                   <span class="tile__caption">${g.caption}${icon('arrowsOut')}</span>
                 </button>
@@ -30,7 +31,7 @@ export function renderGallery() {
 
       <dialog class="lightbox" aria-label="Photo agrandie">
         <figure class="lightbox__figure">
-          <img class="lightbox__img" src="${gallery[0].src}" alt="${gallery[0].alt}" loading="lazy" decoding="async" />
+          <img class="lightbox__img" src="${asset(gallery[0].src)}" alt="${gallery[0].alt}" loading="lazy" decoding="async" />
           <figcaption class="lightbox__bar">
             <span class="lightbox__caption"></span>
             <span class="lightbox__count" aria-live="polite"></span>
@@ -56,7 +57,7 @@ export function mountGallery(): void {
     index = (i + gallery.length) % gallery.length;
     const g = gallery[index];
     const swap = (): void => {
-      img.src = g.src;
+      img.src = asset(g.src);
       img.alt = g.alt;
       caption.textContent = g.caption;
       counter.textContent = `${index + 1} sur ${gallery.length}`;

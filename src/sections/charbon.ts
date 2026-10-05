@@ -1,4 +1,5 @@
 import { html, $, $$ } from '../lib/html';
+import { asset } from '../lib/asset';
 import { icon } from '../lib/icons';
 import { charcoalSupplement, formatPrice } from '../data/menu';
 import { gsap } from '../animations/scroll';
@@ -55,7 +56,7 @@ export function renderCharbon() {
       <div class="charbon__pin">
         <div class="wrap charbon__grid">
           <div class="charbon__stage">
-            <img class="charbon__photo" src="/media/pate-noire.webp" alt="" loading="lazy" decoding="async" />
+            <img class="charbon__photo" src="${asset('/media/pate-noire.webp')}" alt="" loading="lazy" decoding="async" />
             ${pizza}
           </div>
 

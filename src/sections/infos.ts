@@ -1,4 +1,5 @@
 import { html, $ } from '../lib/html';
+import { asset } from '../lib/asset';
 import { icon } from '../lib/icons';
 import { displayWeek, openingHours, restaurant, services, weekDays } from '../data/restaurant';
 import { formatMinutes, parisNow } from '../lib/time';
@@ -44,7 +45,7 @@ export function renderInfos() {
             <address>${restaurant.address.street}<br />${restaurant.address.postalCode} ${restaurant.address.city}</address>
             <p>Au cœur du bourg, le long de la Vilaine.</p>
             <div class="map" data-src="${mapSrc}">
-              <img src="/media/devanture.webp" alt="" loading="lazy" decoding="async" />
+              <img src="${asset('/media/devanture.webp')}" alt="" loading="lazy" decoding="async" />
               <button class="btn btn--light btn--sm" type="button">${icon('mapPin')}Afficher la carte</button>
               <span class="map__note">La carte est chargée depuis OpenStreetMap.</span>
             </div>

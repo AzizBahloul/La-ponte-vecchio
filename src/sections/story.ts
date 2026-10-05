@@ -1,12 +1,13 @@
 import { html, $, $$ } from '../lib/html';
+import { asset } from '../lib/asset';
 import { story, type StoryStep } from '../data/content';
 import { gsap } from '../animations/scroll';
 import { EASE, MQ } from '../lib/motion';
 
 const media = (m: StoryStep['media']) =>
   m.type === 'video'
-    ? html`<video muted loop playsinline preload="none" data-autoplay data-src="${m.src}" poster="${m.poster}" aria-label="${m.alt}"></video>`
-    : html`<img src="${m.src}" alt="${m.alt}" loading="lazy" decoding="async" />`;
+    ? html`<video muted loop playsinline preload="none" data-autoplay data-src="${asset(m.src)}" poster="${m.poster && asset(m.poster)}" aria-label="${m.alt}"></video>`
+    : html`<img src="${asset(m.src)}" alt="${m.alt}" loading="lazy" decoding="async" />`;
 
 export function renderStory() {
   return html`

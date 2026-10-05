@@ -12,6 +12,18 @@ content is hardcoded mock data (demo for the restaurant).
 
 Run `npm run build` before calling a change done. There are no tests.
 
+## Deploy
+
+GitHub Pages via `.github/workflows/deploy.yml`: every push to `main` builds and publishes `dist/`
+(Settings → Pages → Source must stay "GitHub Actions"). The site is served from
+`/La-ponte-vecchio/`, so the workflow passes `BASE_PATH` to `vite.config.ts` (empty on a custom domain).
+
+- Media paths built in TS go through `asset()` from `src/lib/asset.ts` (`src/data/` keeps plain
+  `/media/x.webp`). Never emit a bare `/media/...` from a template: it 404s on Pages.
+- `index.html`, `404.html` and CSS are rewritten by Vite. `404.html` is at the repo root (not
+  `public/`) for that reason; use `%BASE_URL%` in its links, not `/`.
+- Check a deploy locally: `BASE_PATH=/La-ponte-vecchio npm run build && BASE_PATH=/La-ponte-vecchio npm run preview`.
+
 ## Structure
 
 - `index.html`: shell only (meta, JSON-LD, `#app`).

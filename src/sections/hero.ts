@@ -1,4 +1,5 @@
 import { html, $, $$ } from '../lib/html';
+import { asset } from '../lib/asset';
 import { icon } from '../lib/icons';
 import { restaurant } from '../data/restaurant';
 import { gsap, ScrollTrigger } from '../animations/scroll';
@@ -67,7 +68,7 @@ export function renderHero() {
           <div class="arch">
             ${heat}
             <img
-              src="/media/hero.webp"
+              src="${asset('/media/hero.webp')}"
               alt="Une pizza sort du four sur la pelle, devant les flammes"
               width="1067"
               height="1600"

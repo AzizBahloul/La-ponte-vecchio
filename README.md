@@ -10,6 +10,13 @@ npm run build      # vérification TypeScript + build dans dist/
 npm run preview    # servir le build
 ```
 
+## Mise en ligne (GitHub Pages)
+
+Chaque `git push` sur `main` lance `.github/workflows/deploy.yml`, qui construit le site et le
+publie sur https://azizbahloul.github.io/La-ponte-vecchio/. Réglage unique : dans le dépôt,
+Settings → Pages → Source : **GitHub Actions**. Avancement : onglet Actions du dépôt.
+Avec un domaine personnalisé, rien à changer dans le code : le chemin de base se règle tout seul.
+
 ## Modifier le contenu
 
 Tout le contenu est dans `src/data/` :
